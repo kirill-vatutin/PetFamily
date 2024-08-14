@@ -10,8 +10,7 @@ namespace PetFamily.Domain.Models
         public string Description { get; private set; } = string.Empty;
 
         public string Species { get; private set; } = string.Empty;
-        // Стоит ли создавать enum под вид? Код упрощается, но это уже хардкодинг
-
+       
         public string Breed { get; private set; } = string.Empty;
 
         public string Color { get; private set; } = string.Empty;
@@ -37,6 +36,14 @@ namespace PetFamily.Domain.Models
         public Requisite Requisite { get; private set; } = null!;
 
         public DateTime CreateTime { get; private set; }
+
+        private List<PetPhoto> _petPhotos = new();
+        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+
+        public void AddPhoto(PetPhoto photo)
+        {
+            _petPhotos.Add(photo);
+        }
 
 
         private Pet(string name, string description, string species, string breed,
