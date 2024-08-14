@@ -1,15 +1,13 @@
 ﻿namespace PetFamily.Domain.Models
 {
-    public class Address
+    public record Address
     {
-        public string Country { get; set; } = string.Empty;
-        public string City { get; set; } = string.Empty;
+        public string Country { get; init; } = string.Empty;
+        public string City { get; init; } = string.Empty;
+        public string Street { get; init; } = string.Empty;
+        public int HouseNumber { get; init; }
+        public string? HouseLetter { get; init; }
 
-        public string Street { get; set; } = string.Empty;
-
-        public int HouseNumber { get; set; } 
-
-        public string? HouseLetter { get; set; }
-     }
-    };
+    }
+};
 
