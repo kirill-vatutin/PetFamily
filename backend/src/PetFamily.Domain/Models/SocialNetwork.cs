@@ -1,9 +1,9 @@
 ﻿namespace PetFamily.Domain.Models
 {
-    public class SocialNetwork
+    public record SocialNetwork
     {
-        public string Name { get; private set;} = string.Empty;
-        public string Link { get; private set; } = string.Empty;
+        public string Name { get; init;} = string.Empty;
+        public string Link { get; init; } = string.Empty;
 
     }
 }

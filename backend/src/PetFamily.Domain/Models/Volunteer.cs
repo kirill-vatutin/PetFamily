@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CSharpFunctionalExtensions;
 
 namespace PetFamily.Domain.Models
 {
-    public class Volunteer:BaseEntity
+    public class Volunteer : BaseEntity
     {
-       
-        public  string Firstname { get; private set; } =string.Empty;
-        public string SecondName { get; private set;} =string.Empty;
-        public string LastName { get;private set; } =string.Empty;
-        public string Description { get; private set; } =string.Empty;
+        public FIO Fio { get; private set; } = null!;
+
+        public string Description { get; private set; } = string.Empty;
         public int YearsExperience { get; private set; }
 
         public int CountOfNeedHelp { get; private set; }
@@ -21,7 +15,68 @@ namespace PetFamily.Domain.Models
 
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        public IReadOnlyList<SocialNetwork>
+        private List<SocialNetwork> _socialNetworks = new();
+
+        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+
+        public Requisite Requisite { get; private set; } = null!;
+
+        private List<Pet> _pets = new();
+
+        public IReadOnlyList<Pet> Pets => _pets;
+
+        public void AddSocialNetwork(SocialNetwork socialNetwork)
+        {
+            _socialNetworks.Add(socialNetwork);
+        }
+
+        public void AddPet(Pet pet)
+        {
+            _pets.Add(pet);
+        }
+
+        //EF Core
+        private Volunteer()
+        {
+
+        }
+
+        private Volunteer(FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+        {
+            Fio = fio;
+            Description = description;
+            YearsExperience = yearsExperience;
+            PhoneNumber = phoneNumber;
+            Requisite = requisite;
+            CountOfNeedHelp = 0;
+            CountOfLookingForAHouse = 0;
+            CountOfFoundAHouse = 0;
+        }
+
+        public static Result<Volunteer> Create(FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+        {
+            if (string.IsNullOrWhiteSpace(fio.Firstname))
+            {
+                return Result.Failure<Volunteer>("Firstname can not be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(fio.LastName))
+            {
+                return Result.Failure<Volunteer>("Lastname can not be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                return Result.Failure<Volunteer>("Description can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                return Result.Failure<Volunteer>("Phone number can not be empty");
+            }
+            var volunteer = new Volunteer(fio, description, yearsExperience, phoneNumber, requisite);
+            return Result.Success(volunteer);
+        }
+
 
 
 
