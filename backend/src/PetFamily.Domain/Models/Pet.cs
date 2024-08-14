@@ -39,7 +39,7 @@ namespace PetFamily.Domain.Models
         public DateTime CreateTime { get; private set; }
 
 
-        public Pet(string name, string description, string species, string breed,
+        private Pet(string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
@@ -62,15 +62,43 @@ namespace PetFamily.Domain.Models
             CreateTime = DateTime.UtcNow;
         }
 
-        public Result<Pet?, string?> Create(string name, string description, string species, string breed,
+
+
+        public static Result<Pet> Create(string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
         {
-            return  Result<Pet>(new Pet( name,  description,  species,  breed,
-                    color,  healthInfo,  address,  weight,
-                    height,  phoneNumber,  isCastrated,  isVaccinated,
-                    birthDay,  helpStatus,  requisite));
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return Result.Failure<Pet>("Name can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                return Result.Failure<Pet>("Description can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(breed))
+            {
+                return Result.Failure<Pet>("Breed can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(color))
+            {
+                return Result.Failure<Pet>("Color can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(healthInfo))
+            {
+                return Result.Failure<Pet>("HealthInfo can not be empty");
+            }
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                return Result.Failure<Pet>("PhoneNumber can not be empty");
+            }
+
+            var pet = new Pet(name, description, species, breed,
+                    color, healthInfo, address, weight,
+                    height, phoneNumber, isCastrated, isVaccinated,
+                    birthDay, helpStatus, requisite);
+            return  Result.Success(pet);
         }
 
     }
