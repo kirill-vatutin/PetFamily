@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetFamily.Domain.Models
+﻿namespace PetFamily.Domain.Models
 {
-    internal class PetPhoto
+    public class PetPhoto:BaseEntity
     {
+        public string Path { get; private set; } = string.Empty;
+        public bool IsMain { get; private set; }
+
+        //EF Core
+        private  PetPhoto()
+        {
+
+        }
+
+        public PetPhoto(string path,bool isMain)
+        {
+            Path= path;
+            IsMain = isMain;
+        }
+
     }
 }
