@@ -9,15 +9,11 @@ namespace PetFamily.Domain.Models
         public string Description { get; private set; } = string.Empty;
         public int YearsExperience { get; private set; }
 
-        public int CountOfNeedHelp { get; private set; }
-        public int CountOfLookingForAHouse { get; private set; }
-        public int CountOfFoundAHouse { get; private set; }
+        public int CountHelp { get; private set; }
+        public int CountHouseSearch { get; private set; }
+        public int CountHouseFound { get; private set; }
 
         public string PhoneNumber { get; private set; } = string.Empty;
-
-        private List<SocialNetwork> _socialNetworks = new();
-
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
         public Requisite Requisite { get; private set; } = null!;
 
@@ -25,10 +21,7 @@ namespace PetFamily.Domain.Models
 
         public IReadOnlyList<Pet> Pets => _pets;
 
-        public void AddSocialNetwork(SocialNetwork socialNetwork)
-        {
-            _socialNetworks.Add(socialNetwork);
-        }
+        public SocialNetworkList? SocialNetworks { get; private set; }
 
         public void AddPet(Pet pet)
         {
@@ -48,9 +41,9 @@ namespace PetFamily.Domain.Models
             YearsExperience = yearsExperience;
             PhoneNumber = phoneNumber;
             Requisite = requisite;
-            CountOfNeedHelp = 0;
-            CountOfLookingForAHouse = 0;
-            CountOfFoundAHouse = 0;
+            CountHelp = 0;
+            CountHouseSearch = 0;
+            CountHouseFound = 0;
         }
 
         public static Result<Volunteer> Create(FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
@@ -81,4 +74,5 @@ namespace PetFamily.Domain.Models
 
 
     }
+
 }
