@@ -25,9 +25,9 @@ namespace PetFamily.Domain.Models
 
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        public bool IsCastrated { get; private set; }
+        public bool IsCastrated { get; private set; } = false;
 
-        public bool IsVaccinated { get; private set; }
+        public bool IsVaccinated { get; private set; } = false;
 
         public DateTime BirthDay { get; private set; }
 
@@ -37,14 +37,9 @@ namespace PetFamily.Domain.Models
 
         public DateTime CreateTime { get; private set; }
 
-        private List<PetPhoto> _petPhotos = new();
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        public PetPhotoList? PetPhotos { get; private set; }
 
-        public void AddPhoto(PetPhoto photo)
-        {
-            _petPhotos.Add(photo);
-        }
-
+        private Pet() { }
 
         private Pet(string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
