@@ -36,7 +36,7 @@ namespace PetFamily.Infrastructure.Configuration
               .IsRequired()
               .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
-            builder.OwnsOne(p => p.Address, pb =>
+            builder.ComplexProperty(p => p.Address, pb =>
             {
                 pb.Property(a => a.Country)
                 .IsRequired()
@@ -82,7 +82,7 @@ namespace PetFamily.Infrastructure.Configuration
                 .IsRequired()
                 .HasConversion<string>();
 
-            builder.OwnsOne(p => p.Requisite, requisiteBuilder =>
+            builder.ComplexProperty(p => p.Requisite, requisiteBuilder =>
             {
                 requisiteBuilder.Property(rb => rb.Name)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)

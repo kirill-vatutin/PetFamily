@@ -13,7 +13,7 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.HasKey(v => v.Id);
 
-            builder.OwnsOne(v => v.Fio, fioBuilder =>
+            builder.ComplexProperty(v => v.Fio, fioBuilder =>
             {
                 fioBuilder.Property(f => f.Firstname)
                 .IsRequired()
@@ -46,7 +46,7 @@ namespace PetFamily.Infrastructure.Configuration
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .IsRequired();
 
-            builder.OwnsOne(v => v.Requisite, requisiteBuilder =>
+            builder.ComplexProperty(v => v.Requisite, requisiteBuilder =>
             {
                 requisiteBuilder.Property(rb => rb.Name)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
