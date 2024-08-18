@@ -1,9 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Enums;
+using PetFamily.Domain.Modules;
+
 
 namespace PetFamily.Domain.Models
 {
-    public class Pet : BaseEntity
+
+
+    public class Pet : Shared.Entity<PetId>
     {
         public string Name { get; private set; } = string.Empty;
 
@@ -39,12 +43,13 @@ namespace PetFamily.Domain.Models
 
         public PetPhotoList? PetPhotos { get; private set; }
 
-        private Pet() { }
+        private Pet(PetId id):base(id) { }
 
-        private Pet(string name, string description, string species, string breed,
+        private Pet(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
+            :base (id) 
         {
             Name = name;
             Description = description;
@@ -66,7 +71,7 @@ namespace PetFamily.Domain.Models
 
 
 
-        public static Result<Pet> Create(string name, string description, string species, string breed,
+        public static Result<Pet> Create(PetId id,string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
@@ -96,7 +101,7 @@ namespace PetFamily.Domain.Models
                 return Result.Failure<Pet>("PhoneNumber can not be empty");
             }
 
-            var pet = new Pet(name, description, species, breed,
+            var pet = new Pet(id,name, description, species, breed,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
                     birthDay, helpStatus, requisite);

@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Models
 {
-    public class Volunteer : BaseEntity
+
+    public class Volunteer : Shared.Entity<VolunteerId>
     {
         public FIO Fio { get; private set; } = null!;
 
@@ -29,12 +31,12 @@ namespace PetFamily.Domain.Models
         }
 
         //EF Core
-        private Volunteer()
-        {
+        private Volunteer(VolunteerId id)
+            :base(id)
+        {   }
 
-        }
-
-        private Volunteer(FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+        private Volunteer(VolunteerId id, FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+            :base(id)
         {
             Fio = fio;
             Description = description;
@@ -46,7 +48,7 @@ namespace PetFamily.Domain.Models
             CountHouseFound = 0;
         }
 
-        public static Result<Volunteer> Create(FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+        public static Result<Volunteer> Create(VolunteerId id, FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
         {
             if (string.IsNullOrWhiteSpace(fio.Firstname))
             {
@@ -66,7 +68,7 @@ namespace PetFamily.Domain.Models
             {
                 return Result.Failure<Volunteer>("Phone number can not be empty");
             }
-            var volunteer = new Volunteer(fio, description, yearsExperience, phoneNumber, requisite);
+            var volunteer = new Volunteer(id,fio, description, yearsExperience, phoneNumber, requisite);
             return Result.Success(volunteer);
         }
 

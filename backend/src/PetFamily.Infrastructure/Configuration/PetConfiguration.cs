@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Models;
+using PetFamily.Domain.Modules;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configuration
@@ -11,6 +12,12 @@ namespace PetFamily.Infrastructure.Configuration
         {
             builder.ToTable("pets");
             builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Id)
+                .HasConversion(
+                id => id.Value,
+                value => PetId.Create(value)
+                );
 
             builder.Property(p => p.Name)
                 .IsRequired()

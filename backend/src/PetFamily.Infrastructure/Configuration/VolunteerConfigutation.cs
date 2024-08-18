@@ -13,6 +13,12 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.HasKey(v => v.Id);
 
+            builder.Property(v => v.Id)
+                .HasConversion(
+                id => id.Value,
+                value => VolunteerId.Create(value)
+                );
+
             builder.ComplexProperty(v => v.Fio, fioBuilder =>
             {
                 fioBuilder.Property(f => f.Firstname)
