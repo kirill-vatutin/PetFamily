@@ -1,6 +1,6 @@
 ﻿namespace PetFamily.Domain.Models
 {
-    public record FIO
+    public record FullName
     {
         public string Firstname { get;init; } = string.Empty;
         public string SecondName { get; init; } = string.Empty;

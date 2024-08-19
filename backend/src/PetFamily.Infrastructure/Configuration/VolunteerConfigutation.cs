@@ -19,15 +19,15 @@ namespace PetFamily.Infrastructure.Configuration
                 value => VolunteerId.Create(value)
                 );
 
-            builder.ComplexProperty(v => v.Fio, fioBuilder =>
+            builder.ComplexProperty(v => v.FullName, nameBuilder =>
             {
-                fioBuilder.Property(f => f.Firstname)
+                nameBuilder.Property(fn => fn.Firstname)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                fioBuilder.Property(f => f.SecondName)
+                nameBuilder.Property(fn => fn.SecondName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                fioBuilder.Property(f => f.LastName)
+                nameBuilder.Property(fn => fn.LastName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
@@ -39,41 +39,33 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(v => v.YearsExperience)
                 .IsRequired();
 
-            builder.Property(v => v.CountHelp)
-                .IsRequired();
-
-            builder.Property(v => v.CountHouseSearch)
-                .IsRequired();
-
-            builder.Property(v => v.CountHouseFound)
-                .IsRequired();
 
             builder.Property(v => v.PhoneNumber)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .IsRequired();
 
-            builder.ComplexProperty(v => v.Requisite, requisiteBuilder =>
+            builder.OwnsMany(p => p.Requisites, pb =>
             {
-                requisiteBuilder.Property(rb => rb.Name)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .IsRequired();
+                pb.ToJson();
 
-                requisiteBuilder.Property(rb => rb.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-            }
-            );
+                pb.Property(r => r.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                pb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            });
 
-            builder.OwnsOne(v => v.SocialNetworks, vb =>
+            builder.OwnsMany(v => v.SocialNetworks, vb =>
             {
                 vb.ToJson();
 
-                vb.OwnsMany(sn => sn.SocialNetworks, snb =>
-                {
-                    snb.Property(sn => sn.Link)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                });
+                vb.Property(sn => sn.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                vb.Property(sn => sn.Link)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
             });
 

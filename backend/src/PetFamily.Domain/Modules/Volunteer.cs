@@ -1,61 +1,79 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Models
 {
 
     public class Volunteer : Shared.Entity<VolunteerId>
     {
-        public FIO Fio { get; private set; } = null!;
+        public FullName FullName { get; private set; } = null!;
 
         public string Description { get; private set; } = string.Empty;
         public int YearsExperience { get; private set; }
 
-        public int CountHelp { get; private set; }
-        public int CountHouseSearch { get; private set; }
-        public int CountHouseFound { get; private set; }
 
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        public Requisite Requisite { get; private set; } = null!;
+        private List<Requisite> _requisites = [];
 
-        private List<Pet> _pets = new();
+        public IReadOnlyList<Requisite> Requisites =>_requisites.AsReadOnly();  
+
+
+
+        private List<Pet> _pets = [];
 
         public IReadOnlyList<Pet> Pets => _pets;
 
-        public SocialNetworkList? SocialNetworks { get; private set; }
+
+        private List<SocialNetwork> _socialNetworks = [];
+
+        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
+
+        public void AddRequisite(Requisite requisite)
+        {
+            _requisites.Add(requisite);
+        }
+
+        public void AddSocialNetwork(SocialNetwork socialNetwork)
+        {
+            _socialNetworks.Add(socialNetwork);
+        }
 
         public void AddPet(Pet pet)
         {
             _pets.Add(pet);
         }
 
+        public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
+
+        public int PetsCountHouseSearch() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
+
+        public int PetsCountHouseFound() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.FoundAHouse);
+
+
         //EF Core
         private Volunteer(VolunteerId id)
-            :base(id)
-        {   }
+            : base(id)
+        { }
 
-        private Volunteer(VolunteerId id, FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
-            :base(id)
+        private Volunteer(VolunteerId id, FullName fullname, string description,
+                          int yearsExperience, string phoneNumber)
+            : base(id)
         {
-            Fio = fio;
+            FullName = fullname;
             Description = description;
             YearsExperience = yearsExperience;
             PhoneNumber = phoneNumber;
-            Requisite = requisite;
-            CountHelp = 0;
-            CountHouseSearch = 0;
-            CountHouseFound = 0;
         }
 
-        public static Result<Volunteer> Create(VolunteerId id, FIO fio, string description, int yearsExperience, string phoneNumber, Requisite requisite)
+        public static Result<Volunteer> Create(VolunteerId id, FullName fullName,
+                      string description, int yearsExperience, string phoneNumber)
         {
-            if (string.IsNullOrWhiteSpace(fio.Firstname))
+            if (string.IsNullOrWhiteSpace(fullName.Firstname))
             {
                 return Result.Failure<Volunteer>("Firstname can not be empty");
             }
 
-            if (string.IsNullOrWhiteSpace(fio.LastName))
+            if (string.IsNullOrWhiteSpace(fullName.LastName))
             {
                 return Result.Failure<Volunteer>("Lastname can not be empty");
             }
@@ -68,8 +86,8 @@ namespace PetFamily.Domain.Models
             {
                 return Result.Failure<Volunteer>("Phone number can not be empty");
             }
-            var volunteer = new Volunteer(id,fio, description, yearsExperience, phoneNumber, requisite);
-            return Result.Success(volunteer);
+            var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber);
+            return volunteer;
         }
 
 

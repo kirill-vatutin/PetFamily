@@ -89,36 +89,30 @@ namespace PetFamily.Infrastructure.Configuration
                 .IsRequired()
                 .HasConversion<string>();
 
-            builder.ComplexProperty(p => p.Requisite, requisiteBuilder =>
+            builder.OwnsMany(p => p.Requisites, pb =>
             {
-                requisiteBuilder.Property(rb => rb.Name)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .IsRequired();
+                pb.ToJson();
 
-                requisiteBuilder.Property(rb => rb.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-            }
-          );
+                pb.Property(r => r.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                pb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            });
 
             builder.Property(p => p.CreateTime)
                 .IsRequired();
 
-            builder.OwnsOne(p => p.PetPhotos, pb =>
+            builder.OwnsMany(p => p.PetPhotos, pb =>
             {
                 pb.ToJson();
 
-                pb.OwnsMany(pp => pp.PetPhotos, ppb =>
-                {
-                    ppb.Property(pp => pp.Path)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-                    ppb.Property(pp => pp.IsMain)
+                pb.Property(pp=>pp.Path)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-                });
+                pb.Property(pp=>pp.IsMain)
+                  .IsRequired ();
 
             });
 
