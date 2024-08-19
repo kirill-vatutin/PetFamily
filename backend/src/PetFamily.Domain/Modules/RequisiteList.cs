@@ -10,7 +10,7 @@ namespace PetFamily.Domain.Modules
 
         public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
 
-        public void AddSocialNetwork(Requisite requisite)
+        public void AddRequisite(Requisite requisite)
         {
             _requisites.Add(requisite);
         }

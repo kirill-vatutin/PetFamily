@@ -46,27 +46,13 @@ namespace PetFamily.Domain.Models
         public HelpStatus HelpStatus { get; private set; }
 
 
-        private List<Requisite> _requisites = [];
-
-        public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
-
+        public RequisiteList? Requisites = null!;
 
         public DateTime CreateTime { get; private set; }
 
+        public PetPhotoList? PetPhotos = null!;
 
-        private List<PetPhoto> _petPhotos = [];
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
-
-        public void AddPhoto(PetPhoto photo)
-        {
-            _petPhotos.Add(photo);
-        }
-
-        public void AddRequisite(Requisite requisite)
-        {
-            _requisites.Add(requisite);
-        }
-
+      
         private Pet(PetId id) : base(id) { }
 
         private Pet(PetId id, string name, string description, string species, string breed,

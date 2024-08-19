@@ -60,18 +60,23 @@ namespace PetFamily.Infrastructure.Configuration
                 });
             });
 
-            builder.OwnsMany(v => v.SocialNetworks, vb =>
+            builder.OwnsOne(v => v.SocialNetworks, vb =>
             {
                 vb.ToJson();
 
-                vb.Property(sn => sn.Name)
+                vb.OwnsMany(vs => vs.SocialNetworks, vsb =>
+                {
+                    vsb.Property(r => r.Name)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                vb.Property(sn => sn.Link)
+                    vsb.Property(r => r.Link)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
+                });
             });
+
+
 
             builder.HasMany(v => v.Pets)
                 .WithOne()

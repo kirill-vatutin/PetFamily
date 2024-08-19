@@ -107,17 +107,22 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(p => p.CreateTime)
                 .IsRequired();
 
-            builder.OwnsMany(p => p.PetPhotos, pb =>
+            builder.OwnsOne(p => p.PetPhotos, pb =>
             {
                 pb.ToJson();
 
-                pb.Property(pp=>pp.Path)
+                pb.OwnsMany(pp => pp.PetPhotos, ppb =>
+                {
+                    ppb.Property(pp => pp.Path)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                pb.Property(pp=>pp.IsMain)
-                  .IsRequired ();
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
+                    ppb.Property(pp => pp.IsMain)
+                    .IsRequired();
+                });
             });
+
+
 
 
 

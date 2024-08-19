@@ -1,15 +1,16 @@
-﻿namespace PetFamily.Domain.Models
+﻿using PetFamily.Domain.Models;
+
+namespace PetFamily.Domain.Modules
 {
-    public record PetPhotoList
+    public class PetPhotoList
     {
+        private List<PetPhoto> _petPhoto = [];
 
-        private List<PetPhoto> _petPhotos = [];
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        public IReadOnlyList<PetPhoto> PetPhotos => _petPhoto.AsReadOnly();
 
-        public void AddPhoto(PetPhoto photo)
+        public void AddPetPhoto(PetPhoto petPhoto)
         {
-            _petPhotos.Add(photo);
+            _petPhoto.Add(petPhoto);
         }
-
     }
 }

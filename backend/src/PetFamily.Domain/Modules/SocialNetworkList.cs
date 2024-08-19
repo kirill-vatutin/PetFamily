@@ -1,8 +1,15 @@
-﻿namespace PetFamily.Domain.Models
+﻿using PetFamily.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PetFamily.Domain.Modules
 {
-    public record SocialNetworkList
+    public class SocialNetworkList
     {
-        private  List<SocialNetwork> _socialNetworks = [];
+        private List<SocialNetwork> _socialNetworks = [];
 
         public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
 
@@ -10,7 +17,5 @@
         {
             _socialNetworks.Add(socialNetwork);
         }
-
     }
-
 }

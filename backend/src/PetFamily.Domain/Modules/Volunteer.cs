@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Modules;
 
 namespace PetFamily.Domain.Models
 {
@@ -13,10 +14,7 @@ namespace PetFamily.Domain.Models
 
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        private List<Requisite> _requisites = [];
-
-        public IReadOnlyList<Requisite> Requisites =>_requisites.AsReadOnly();  
-
+        public RequisiteList? Requisites = null!;
 
 
         private List<Pet> _pets = [];
@@ -24,24 +22,8 @@ namespace PetFamily.Domain.Models
         public IReadOnlyList<Pet> Pets => _pets;
 
 
-        private List<SocialNetwork> _socialNetworks = [];
+        public SocialNetworkList? SocialNetworks { get; private set; } = null!;
 
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
-
-        public void AddRequisite(Requisite requisite)
-        {
-            _requisites.Add(requisite);
-        }
-
-        public void AddSocialNetwork(SocialNetwork socialNetwork)
-        {
-            _socialNetworks.Add(socialNetwork);
-        }
-
-        public void AddPet(Pet pet)
-        {
-            _pets.Add(pet);
-        }
 
         public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
 
@@ -55,7 +37,7 @@ namespace PetFamily.Domain.Models
             : base(id)
         { }
 
-        private Volunteer(VolunteerId id, FullName fullname, string description,
+        private Volunteer(VolunteerId id, FullName fullName, string description,
                           int yearsExperience, string phoneNumber)
             : base(id)
         {
