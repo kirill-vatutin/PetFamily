@@ -37,7 +37,7 @@ namespace PetFamily.Domain.Models
 
         public HelpStatus HelpStatus { get; private set; }
 
-        public Requisite Requisite { get; private set; } = null!;
+        public RequisiteList? Requisites { get; private set; } = null!;
 
         public DateTime CreateTime { get; private set; }
 
@@ -48,7 +48,7 @@ namespace PetFamily.Domain.Models
         private Pet(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
+                   DateTime birthDay, HelpStatus helpStatus)
             :base (id) 
         {
             Name = name;
@@ -65,7 +65,6 @@ namespace PetFamily.Domain.Models
             IsVaccinated = isVaccinated;
             BirthDay = birthDay;
             HelpStatus = helpStatus;
-            Requisite = requisite;
             CreateTime = DateTime.UtcNow;
         }
 
@@ -74,7 +73,7 @@ namespace PetFamily.Domain.Models
         public static Result<Pet> Create(PetId id,string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
+                   DateTime birthDay, HelpStatus helpStatus)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -104,8 +103,8 @@ namespace PetFamily.Domain.Models
             var pet = new Pet(id,name, description, species, breed,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
-                    birthDay, helpStatus, requisite);
-            return  Result.Success(pet);
+                    birthDay, helpStatus);
+            return  pet;
         }
 
     }

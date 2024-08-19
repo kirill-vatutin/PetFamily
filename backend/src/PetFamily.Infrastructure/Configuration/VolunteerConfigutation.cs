@@ -19,15 +19,15 @@ namespace PetFamily.Infrastructure.Configuration
                 value => VolunteerId.Create(value)
                 );
 
-            builder.ComplexProperty(v => v.Fio, fioBuilder =>
+            builder.ComplexProperty(v => v.FullName, nameBuilder =>
             {
-                fioBuilder.Property(f => f.Firstname)
+                nameBuilder.Property(f => f.Firstname)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                fioBuilder.Property(f => f.SecondName)
+                nameBuilder.Property(f => f.SecondName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                fioBuilder.Property(f => f.LastName)
+                nameBuilder.Property(f => f.LastName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
@@ -39,30 +39,25 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(v => v.YearsExperience)
                 .IsRequired();
 
-            builder.Property(v => v.CountHelp)
-                .IsRequired();
-
-            builder.Property(v => v.CountHouseSearch)
-                .IsRequired();
-
-            builder.Property(v => v.CountHouseFound)
-                .IsRequired();
-
             builder.Property(v => v.PhoneNumber)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .IsRequired();
 
-            builder.ComplexProperty(v => v.Requisite, requisiteBuilder =>
+            builder.OwnsOne(v => v.Requisites, vb =>
             {
-                requisiteBuilder.Property(rb => rb.Name)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .IsRequired();
+                vb.ToJson();
 
-                requisiteBuilder.Property(rb => rb.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-            }
-            );
+                vb.OwnsMany(vr => vr.Requisites, vrb =>
+                {
+                    vrb.Property(r => r.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    vrb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+
+                });
+            });
 
             builder.OwnsOne(v => v.SocialNetworks, vb =>
             {
@@ -80,9 +75,6 @@ namespace PetFamily.Infrastructure.Configuration
             builder.HasMany(v => v.Pets)
                 .WithOne()
                 .HasForeignKey("volunteer_id");
-
-
-
 
         }
     }
