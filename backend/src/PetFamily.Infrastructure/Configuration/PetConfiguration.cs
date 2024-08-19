@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Models;
+using PetFamily.Domain.Modules;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configuration
@@ -11,6 +12,12 @@ namespace PetFamily.Infrastructure.Configuration
         {
             builder.ToTable("pets");
             builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Id)
+                .HasConversion(
+                id => id.Value,
+                value => PetId.Create(value)
+                );
 
             builder.Property(p => p.Name)
                 .IsRequired()
@@ -81,18 +88,21 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(p => p.HelpStatus)
                 .IsRequired()
                 .HasConversion<string>();
-
-            builder.ComplexProperty(p => p.Requisite, requisiteBuilder =>
+            builder.OwnsOne(p => p.Requisites, pb =>
             {
-                requisiteBuilder.Property(rb => rb.Name)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .IsRequired();
+                pb.ToJson();
 
-                requisiteBuilder.Property(rb => rb.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-            }
-          );
+                pb.OwnsMany(pr => pr.Requisites, prb =>
+                {
+                    prb.Property(r => r.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    prb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+
+                });
+            });
 
             builder.Property(p => p.CreateTime)
                 .IsRequired();
@@ -104,16 +114,15 @@ namespace PetFamily.Infrastructure.Configuration
                 pb.OwnsMany(pp => pp.PetPhotos, ppb =>
                 {
                     ppb.Property(pp => pp.Path)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
                     ppb.Property(pp => pp.IsMain)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
+                    .IsRequired();
                 });
-
             });
+
+
 
 
 

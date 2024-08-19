@@ -1,50 +1,65 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Enums;
+using PetFamily.Domain.Modules;
+
 
 namespace PetFamily.Domain.Models
 {
-    public class Pet : BaseEntity
+
+
+    public class Pet : Shared.Entity<PetId>
     {
         public string Name { get; private set; } = string.Empty;
 
         public string Description { get; private set; } = string.Empty;
 
+
         public string Species { get; private set; } = string.Empty;
-       
+
         public string Breed { get; private set; } = string.Empty;
+
 
         public string Color { get; private set; } = string.Empty;
 
+
         public string HealthInfo { get; private set; } = string.Empty;
 
+
         public Address Address { get; private set; } = null!;
+
 
         public int Weight { get; private set; }
 
         public int Height { get; private set; }
 
+
         public string PhoneNumber { get; private set; } = string.Empty;
+
 
         public bool IsCastrated { get; private set; } = false;
 
         public bool IsVaccinated { get; private set; } = false;
 
+
         public DateTime BirthDay { get; private set; }
 
         public HelpStatus HelpStatus { get; private set; }
 
-        public Requisite Requisite { get; private set; } = null!;
+
+        public RequisiteList? Requisites = null!;
 
         public DateTime CreateTime { get; private set; }
 
-        public PetPhotoList? PetPhotos { get; private set; }
+        public PetPhotoList? PetPhotos = null!;
 
-        private Pet() { }
+      
+        private Pet(PetId id) : base(id) { }
 
-        private Pet(string name, string description, string species, string breed,
+        private Pet(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
+                   DateTime birthDay, HelpStatus helpStatus)
+            : base(id)
         {
             Name = name;
             Description = description;
@@ -60,16 +75,15 @@ namespace PetFamily.Domain.Models
             IsVaccinated = isVaccinated;
             BirthDay = birthDay;
             HelpStatus = helpStatus;
-            Requisite = requisite;
             CreateTime = DateTime.UtcNow;
         }
 
 
 
-        public static Result<Pet> Create(string name, string description, string species, string breed,
+        public static Result<Pet> Create(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus, Requisite requisite)
+                   DateTime birthDay, HelpStatus helpStatus)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -96,11 +110,11 @@ namespace PetFamily.Domain.Models
                 return Result.Failure<Pet>("PhoneNumber can not be empty");
             }
 
-            var pet = new Pet(name, description, species, breed,
+            var pet = new Pet(id, name, description, species, breed,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
-                    birthDay, helpStatus, requisite);
-            return  Result.Success(pet);
+                    birthDay, helpStatus);
+            return pet;
         }
 
     }
