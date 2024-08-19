@@ -21,13 +21,13 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.ComplexProperty(v => v.FullName, nameBuilder =>
             {
-                nameBuilder.Property(f => f.Firstname)
+                nameBuilder.Property(fn => fn.Firstname)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                nameBuilder.Property(f => f.SecondName)
+                nameBuilder.Property(fn => fn.SecondName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                nameBuilder.Property(f => f.LastName)
+                nameBuilder.Property(fn => fn.LastName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
@@ -38,6 +38,7 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.Property(v => v.YearsExperience)
                 .IsRequired();
+
 
             builder.Property(v => v.PhoneNumber)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
@@ -59,16 +60,16 @@ namespace PetFamily.Infrastructure.Configuration
                 });
             });
 
-            builder.OwnsOne(v => v.SocialNetworks, vb =>
+            builder.OwnsMany(v => v.SocialNetworks, vb =>
             {
                 vb.ToJson();
 
-                vb.OwnsMany(sn => sn.SocialNetworks, snb =>
-                {
-                    snb.Property(sn => sn.Link)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                });
+                vb.Property(sn => sn.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                vb.Property(sn => sn.Link)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
             });
 

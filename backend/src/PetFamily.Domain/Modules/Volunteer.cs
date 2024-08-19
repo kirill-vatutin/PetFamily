@@ -1,6 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Modules;
-using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Models
 {
@@ -12,21 +10,38 @@ namespace PetFamily.Domain.Models
         public string Description { get; private set; } = string.Empty;
         public int YearsExperience { get; private set; }
 
+
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        public RequisiteList? Requisites { get; private set; } = null!;
+        private List<Requisite> _requisites = [];
 
-        private List<Pet> _pets = new();
+        public IReadOnlyList<Requisite> Requisites =>_requisites.AsReadOnly();  
+
+
+
+        private List<Pet> _pets = [];
 
         public IReadOnlyList<Pet> Pets => _pets;
 
-        public SocialNetworkList? SocialNetworks { get; private set; }
+
+        private List<SocialNetwork> _socialNetworks = [];
+
+        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
+
+        public void AddRequisite(Requisite requisite)
+        {
+            _requisites.Add(requisite);
+        }
+
+        public void AddSocialNetwork(SocialNetwork socialNetwork)
+        {
+            _socialNetworks.Add(socialNetwork);
+        }
 
         public void AddPet(Pet pet)
         {
             _pets.Add(pet);
         }
-
 
         public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
 
@@ -37,11 +52,12 @@ namespace PetFamily.Domain.Models
 
         //EF Core
         private Volunteer(VolunteerId id)
-            :base(id)
-        {   }
+            : base(id)
+        { }
 
-        private Volunteer(VolunteerId id, FullName fullName, string description, int yearsExperience, string phoneNumber)
-            :base(id)
+        private Volunteer(VolunteerId id, FullName fullname, string description,
+                          int yearsExperience, string phoneNumber)
+            : base(id)
         {
             FullName = fullName;
             Description = description;
@@ -49,7 +65,8 @@ namespace PetFamily.Domain.Models
             PhoneNumber = phoneNumber;
         }
 
-        public static Result<Volunteer> Create(VolunteerId id, FullName fullName, string description, int yearsExperience, string phoneNumber)
+        public static Result<Volunteer> Create(VolunteerId id, FullName fullName,
+                      string description, int yearsExperience, string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(fullName.Firstname))
             {
@@ -69,7 +86,7 @@ namespace PetFamily.Domain.Models
             {
                 return Result.Failure<Volunteer>("Phone number can not be empty");
             }
-            var volunteer = new Volunteer(id,fullName, description, yearsExperience, phoneNumber);
+            var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber);
             return volunteer;
         }
 

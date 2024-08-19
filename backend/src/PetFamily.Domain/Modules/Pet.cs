@@ -13,43 +13,67 @@ namespace PetFamily.Domain.Models
 
         public string Description { get; private set; } = string.Empty;
 
+
         public string Species { get; private set; } = string.Empty;
-       
+
         public string Breed { get; private set; } = string.Empty;
+
 
         public string Color { get; private set; } = string.Empty;
 
+
         public string HealthInfo { get; private set; } = string.Empty;
 
+
         public Address Address { get; private set; } = null!;
+
 
         public int Weight { get; private set; }
 
         public int Height { get; private set; }
 
+
         public string PhoneNumber { get; private set; } = string.Empty;
+
 
         public bool IsCastrated { get; private set; } = false;
 
         public bool IsVaccinated { get; private set; } = false;
 
+
         public DateTime BirthDay { get; private set; }
 
         public HelpStatus HelpStatus { get; private set; }
 
-        public RequisiteList? Requisites { get; private set; } = null!;
+
+        private List<Requisite> _requisites = [];
+
+        public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
+
 
         public DateTime CreateTime { get; private set; }
 
-        public PetPhotoList? PetPhotos { get; private set; }
 
-        private Pet(PetId id):base(id) { }
+        private List<PetPhoto> _petPhotos = [];
+        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+
+        public void AddPhoto(PetPhoto photo)
+        {
+            _petPhotos.Add(photo);
+        }
+
+        public void AddRequisite(Requisite requisite)
+        {
+            _requisites.Add(requisite);
+        }
+
+        private Pet(PetId id) : base(id) { }
 
         private Pet(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus)
-            :base (id) 
+            : base(id)
         {
             Name = name;
             Description = description;
@@ -70,7 +94,7 @@ namespace PetFamily.Domain.Models
 
 
 
-        public static Result<Pet> Create(PetId id,string name, string description, string species, string breed,
+        public static Result<Pet> Create(PetId id, string name, string description, string species, string breed,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus)
@@ -100,11 +124,11 @@ namespace PetFamily.Domain.Models
                 return Result.Failure<Pet>("PhoneNumber can not be empty");
             }
 
-            var pet = new Pet(id,name, description, species, breed,
+            var pet = new Pet(id, name, description, species, breed,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
                     birthDay, helpStatus);
-            return  pet;
+            return pet;
         }
 
     }
