@@ -27,13 +27,19 @@ namespace PetFamily.Infrastructure.Configuration
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
-            builder.Property(p => p.Species)
-               .IsRequired()
-               .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            builder.ComplexProperty(p => p.Classification, pb =>
+            {
+                pb.Property(c => c.SpeciesId)
+                   .IsRequired()
+                   .HasConversion(
+                   id => id.Value,
+                   value => SpeciesId.Create(value)
+                   );
+                pb.Property(c => c.BreedId)
+                 .IsRequired();
+                
+            });
 
-            builder.Property(p => p.Breed)
-              .IsRequired()
-              .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
             builder.Property(p => p.Color)
               .IsRequired()
