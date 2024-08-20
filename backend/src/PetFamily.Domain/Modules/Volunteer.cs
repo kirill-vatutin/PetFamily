@@ -71,10 +71,5 @@ namespace PetFamily.Domain.Models
             var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber);
             return volunteer;
         }
-
-
-
-
     }
-
 }

@@ -5,8 +5,6 @@ using PetFamily.Domain.Modules;
 
 namespace PetFamily.Domain.Models
 {
-
-
     public class Pet : Shared.Entity<PetId>
     {
         public string Name { get; private set; } = string.Empty;
@@ -14,9 +12,7 @@ namespace PetFamily.Domain.Models
         public string Description { get; private set; } = string.Empty;
 
 
-        public string Species { get; private set; } = string.Empty;
-
-        public string Breed { get; private set; } = string.Empty;
+        public Classification Classification { get; private set; } = null!;
 
 
         public string Color { get; private set; } = string.Empty;
@@ -55,7 +51,7 @@ namespace PetFamily.Domain.Models
       
         private Pet(PetId id) : base(id) { }
 
-        private Pet(PetId id, string name, string description, string species, string breed,
+        private Pet(PetId id, string name, string description, Classification classification,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus)
@@ -63,8 +59,7 @@ namespace PetFamily.Domain.Models
         {
             Name = name;
             Description = description;
-            Species = species;
-            Breed = breed;
+            Classification = classification;
             Color = color;
             HealthInfo = healthInfo;
             Address = address;
@@ -80,7 +75,7 @@ namespace PetFamily.Domain.Models
 
 
 
-        public static Result<Pet> Create(PetId id, string name, string description, string species, string breed,
+        public static Result<Pet> Create(PetId id, string name, string description, Classification classification,
                    string color, string healthInfo, Address address, int weight,
                    int height, string phoneNumber, bool isCastrated, bool isVaccinated,
                    DateTime birthDay, HelpStatus helpStatus)
@@ -92,10 +87,6 @@ namespace PetFamily.Domain.Models
             if (string.IsNullOrWhiteSpace(description))
             {
                 return Result.Failure<Pet>("Description can not be empty");
-            }
-            if (string.IsNullOrWhiteSpace(breed))
-            {
-                return Result.Failure<Pet>("Breed can not be empty");
             }
             if (string.IsNullOrWhiteSpace(color))
             {
@@ -110,7 +101,7 @@ namespace PetFamily.Domain.Models
                 return Result.Failure<Pet>("PhoneNumber can not be empty");
             }
 
-            var pet = new Pet(id, name, description, species, breed,
+            var pet = new Pet(id, name, description, classification,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
                     birthDay, helpStatus);

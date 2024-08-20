@@ -14,7 +14,7 @@
         public static VolunteerId Empty() => new(Guid.Empty);
 
         public static VolunteerId Create(Guid id) => new(id);
-      
+
     }
 
 }

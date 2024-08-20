@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Models;
+using PetFamily.Domain.Modules;
 
 namespace PetFamily.Infrastructure
 {
@@ -9,8 +10,8 @@ namespace PetFamily.Infrastructure
     {
         private const string DATABASE = "Database";
         public DbSet<Pet> Pets { get; set; }
-
         public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<Species> Species { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
