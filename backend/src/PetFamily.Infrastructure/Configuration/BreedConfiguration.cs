@@ -2,11 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Modules;
 using PetFamily.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PetFamily.Infrastructure.Configuration
 {
@@ -18,11 +14,15 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.HasKey(b => b.Id);
 
+            builder.Property(p => p.Id)
+            .HasConversion(
+            id => id.Value,
+            value => BreedId.Create(value));
+
             builder.Property(b => b.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-            builder.HasOne(b => b.Species)
-                   .WithMany();
+
 
         }
     }
