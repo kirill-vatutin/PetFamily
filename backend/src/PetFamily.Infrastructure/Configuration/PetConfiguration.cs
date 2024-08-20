@@ -36,11 +36,8 @@ namespace PetFamily.Infrastructure.Configuration
                    value => SpeciesId.Create(value)
                    );
                 pb.Property(c => c.BreedId)
-                 .IsRequired()
-                 .HasConversion(
-                 id => id.Value,
-                 value => BreedId.Create(value)
-                 );
+                 .IsRequired();
+                
             });
 
 
