@@ -37,8 +37,11 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             : base(id)
         { }
 
-        private Volunteer(VolunteerId id, FullName fullName, string description,
-                          int yearsExperience, string phoneNumber)
+        private Volunteer(VolunteerId id,
+                          FullName fullName,
+                          string description,
+                          int yearsExperience,
+                          string phoneNumber)
             : base(id)
         {
             FullName = fullName;
@@ -47,8 +50,11 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             PhoneNumber = phoneNumber;
         }
 
-        public static Result<Volunteer> Create(VolunteerId id, FullName fullName,
-                      string description, int yearsExperience, string phoneNumber)
+        public static Result<Volunteer> Create(VolunteerId id,
+                                               FullName fullName,
+                                               string description,
+                                               int yearsExperience,
+                                               string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(fullName.Firstname))
             {
