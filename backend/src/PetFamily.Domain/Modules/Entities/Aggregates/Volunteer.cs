@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Modules.ValueObjects;
 
-namespace PetFamily.Domain.Models
+namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
 
     public class Volunteer : Shared.Entity<VolunteerId>
@@ -14,7 +14,7 @@ namespace PetFamily.Domain.Models
 
         public string PhoneNumber { get; private set; } = string.Empty;
 
-        public RequisiteList? Requisites = null!;
+        public RequisiteList? Requisites { get; private set; }
 
 
         private List<Pet> _pets = [];

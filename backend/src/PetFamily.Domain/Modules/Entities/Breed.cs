@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain.Modules
+namespace PetFamily.Domain.Modules.Entities
 {
     public class Breed : Shared.Entity<BreedId>
     {
@@ -13,7 +13,7 @@ namespace PetFamily.Domain.Modules
 
         public string Name { get; set; } = string.Empty;
 
-   
+
 
         public static Result<Breed> Create(BreedId id, string name)
         {
@@ -21,7 +21,7 @@ namespace PetFamily.Domain.Modules
             {
                 return Result.Failure<Breed>("Name can not be empty");
             }
-          
+
             var breed = new Breed(id, name);
             return breed;
 

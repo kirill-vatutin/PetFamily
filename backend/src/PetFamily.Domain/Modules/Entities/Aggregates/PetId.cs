@@ -1,15 +1,15 @@
-﻿namespace PetFamily.Domain.Modules
+﻿namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public record PetId
     {
 
+        public Guid Value { get; }
 
         public PetId(Guid value)
         {
             Value = value;
         }
 
-        public Guid Value { get; }
 
         public static PetId NewPetId() => new(Guid.NewGuid());
 

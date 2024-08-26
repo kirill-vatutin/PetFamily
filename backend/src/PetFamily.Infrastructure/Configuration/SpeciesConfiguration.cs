@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Modules.Entities.Aggregates;
 using PetFamily.Domain.Shared;
 using System.Reflection.Metadata;
 
