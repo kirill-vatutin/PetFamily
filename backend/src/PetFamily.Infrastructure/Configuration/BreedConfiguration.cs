@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Modules.Entities;
 using PetFamily.Domain.Shared;
 
 
@@ -22,7 +22,6 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(b => b.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
 
         }
     }

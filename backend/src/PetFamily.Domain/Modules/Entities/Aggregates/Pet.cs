@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Enums;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Models;
+using PetFamily.Domain.Modules.ValueObjects;
 
 
-namespace PetFamily.Domain.Models
+namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public class Pet : Shared.Entity<PetId>
     {
@@ -42,13 +43,13 @@ namespace PetFamily.Domain.Models
         public HelpStatus HelpStatus { get; private set; }
 
 
-        public RequisiteList? Requisites = null!;
+        public RequisiteList? Requisites { get; private set; }
 
         public DateTime CreateTime { get; private set; }
 
-        public PetPhotoList? PetPhotos = null!;
+        public PetPhotoList? PetPhotos { get; private set; }
 
-      
+
         private Pet(PetId id) : base(id) { }
 
         private Pet(PetId id, string name, string description, Classification classification,

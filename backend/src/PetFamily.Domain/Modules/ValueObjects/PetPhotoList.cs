@@ -1,6 +1,4 @@
-﻿using PetFamily.Domain.Models;
-
-namespace PetFamily.Domain.Modules
+﻿namespace PetFamily.Domain.Modules.ValueObjects
 {
     public class PetPhotoList
     {

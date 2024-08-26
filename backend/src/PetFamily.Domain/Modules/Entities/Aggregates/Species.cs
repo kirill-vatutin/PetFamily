@@ -1,11 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain.Modules
+namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public class Species : Shared.Entity<SpeciesId>
     {
 
-        public string Name { get; private set; }
+        public string Name { get; private set; } = string.Empty;
 
 
         private List<Breed> _breeds = [];

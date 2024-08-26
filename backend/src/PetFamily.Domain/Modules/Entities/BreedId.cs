@@ -1,5 +1,4 @@
-﻿
-namespace PetFamily.Domain.Modules
+﻿namespace PetFamily.Domain.Modules.Entities
 {
     public record BreedId
     {

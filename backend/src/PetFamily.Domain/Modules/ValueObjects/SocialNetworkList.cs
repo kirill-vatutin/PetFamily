@@ -1,11 +1,4 @@
-﻿using PetFamily.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetFamily.Domain.Modules
+﻿namespace PetFamily.Domain.Modules.ValueObjects
 {
     public class SocialNetworkList
     {

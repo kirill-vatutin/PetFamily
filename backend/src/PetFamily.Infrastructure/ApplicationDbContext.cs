@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Domain.Models;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Modules.Entities.Aggregates;
 
 namespace PetFamily.Infrastructure
 {

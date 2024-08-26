@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Domain.Models
+﻿namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public record VolunteerId
     {

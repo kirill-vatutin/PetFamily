@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFamily.Domain.Models;
-using PetFamily.Domain.Modules;
+using PetFamily.Domain.Modules.Entities.Aggregates;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configuration
@@ -34,9 +33,11 @@ namespace PetFamily.Infrastructure.Configuration
                    .HasConversion(
                    id => id.Value,
                    value => SpeciesId.Create(value)
-                   );
+                   )
+                   .HasColumnName("species_id");
                 pb.Property(c => c.BreedId)
-                 .IsRequired();
+                 .IsRequired()
+                 .HasColumnName("breed_id");
                 
             });
 
@@ -53,22 +54,27 @@ namespace PetFamily.Infrastructure.Configuration
             {
                 pb.Property(a => a.Country)
                 .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("country");
 
                 pb.Property(a => a.City)
                 .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("city");
 
                 pb.Property(a => a.Street)
                 .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("street");
 
                 pb.Property(a => a.HouseNumber)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnName("house_number");
 
                 pb.Property(a => a.HouseLetter)
                 .IsRequired(false)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("house_letter");
             }
              );
 
@@ -127,12 +133,6 @@ namespace PetFamily.Infrastructure.Configuration
                     .IsRequired();
                 });
             });
-
-
-
-
-
-
 
         }
     }

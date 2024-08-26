@@ -1,6 +1,4 @@
-﻿using PetFamily.Domain.Models;
-
-namespace PetFamily.Domain.Modules
+﻿namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public class SpeciesId
     {
@@ -17,5 +15,5 @@ namespace PetFamily.Domain.Modules
         public static SpeciesId Empty() => new(Guid.Empty);
 
         public static SpeciesId Create(Guid id) => new(id);
-            }
+    }
 }
