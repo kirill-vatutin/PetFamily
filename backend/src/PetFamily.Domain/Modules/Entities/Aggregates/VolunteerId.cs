@@ -15,6 +15,8 @@
 
         public static VolunteerId Create(Guid id) => new(id);
 
+        public static implicit operator Guid(VolunteerId id) => id.Value;
+
     }
 
 }

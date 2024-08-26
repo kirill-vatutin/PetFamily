@@ -10,5 +10,14 @@
         {
             _socialNetworks.Add(socialNetwork);
         }
+
+        public SocialNetworkList(IEnumerable<SocialNetwork> socialNetworks)
+        {
+            _socialNetworks = socialNetworks.ToList();
+        }
+        private SocialNetworkList()
+        {
+                
+        }
     }
 }

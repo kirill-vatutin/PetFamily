@@ -22,7 +22,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         public IReadOnlyList<Pet> Pets => _pets;
 
 
-        public SocialNetworkList? SocialNetworks { get; private set; } = null!;
+        public SocialNetworkList? SocialNetworks { get; private set; } 
 
 
         public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
@@ -41,20 +41,26 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
                           FullName fullName,
                           string description,
                           int yearsExperience,
-                          string phoneNumber)
+                          string phoneNumber,
+                          RequisiteList? requisitesList,
+                          SocialNetworkList? socialNetworksList)
             : base(id)
         {
             FullName = fullName;
             Description = description;
             YearsExperience = yearsExperience;
             PhoneNumber = phoneNumber;
+            Requisites = requisitesList;
+            SocialNetworks = socialNetworksList;
         }
 
         public static Result<Volunteer> Create(VolunteerId id,
                                                FullName fullName,
                                                string description,
                                                int yearsExperience,
-                                               string phoneNumber)
+                                               string phoneNumber,
+                                               RequisiteList? requisitesList = null,
+                                               SocialNetworkList? socialNetworksList = null)
         {
             if (string.IsNullOrWhiteSpace(fullName.Firstname))
             {
@@ -74,8 +80,10 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             {
                 return Result.Failure<Volunteer>("Phone number can not be empty");
             }
-            var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber);
+            var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber, requisitesList, socialNetworksList);
             return volunteer;
         }
+
+
     }
 }
