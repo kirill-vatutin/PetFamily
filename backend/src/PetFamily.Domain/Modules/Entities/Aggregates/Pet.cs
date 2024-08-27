@@ -52,11 +52,21 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         private Pet(PetId id) : base(id) { }
 
-        private Pet(PetId id, string name, string description, Classification classification,
-                   string color, string healthInfo, Address address, int weight,
-                   int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus)
-            : base(id)
+        private Pet(PetId id,
+                    string name,
+                    string description,
+                    Classification classification,
+                    string color,
+                    string healthInfo,
+                    Address address,
+                    int weight,
+                    int height,
+                    string phoneNumber,
+                    bool isCastrated,
+                    bool isVaccinated,
+                    DateTime birthDay,
+                    HelpStatus helpStatus
+            ): base(id)
         {
             Name = name;
             Description = description;
@@ -76,10 +86,20 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
 
 
-        public static Result<Pet> Create(PetId id, string name, string description, Classification classification,
-                   string color, string healthInfo, Address address, int weight,
-                   int height, string phoneNumber, bool isCastrated, bool isVaccinated,
-                   DateTime birthDay, HelpStatus helpStatus)
+        public static Result<Pet> Create(PetId id,
+                                         string name,
+                                         string description,
+                                         Classification classification,
+                                         string color,
+                                         string healthInfo,
+                                         Address address,
+                                         int weight,
+                                         int height,
+                                         string phoneNumber,
+                                         bool isCastrated,
+                                         bool isVaccinated,
+                                         DateTime birthDay,
+                                         HelpStatus helpStatus)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

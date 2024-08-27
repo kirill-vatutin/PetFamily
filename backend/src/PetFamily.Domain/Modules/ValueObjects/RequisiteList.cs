@@ -12,5 +12,14 @@
         {
             _requisites.Add(requisite);
         }
+
+        public RequisiteList(IEnumerable<Requisite> requisites)
+        {
+            _requisites = requisites.ToList();
+        }
+        private RequisiteList()
+        {
+                
+        }
     }
 }

@@ -19,7 +19,11 @@ namespace PetFamily.Domain.Models
             HouseLetter = houseLetter;
         }
 
-        public static Result<Address> Create(string country, string city, string street, int houseNumber, string? houseLetter)
+        public static Result<Address> Create(string country,
+                                             string city,
+                                             string street,
+                                             int houseNumber,
+                                             string? houseLetter)
         {
             if (string.IsNullOrEmpty(country))
             {

@@ -29,7 +29,7 @@ namespace PetFamily.Infrastructure.Configuration
                 nameBuilder.Property(fn => fn.SecondName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .HasColumnName("lastname");
+                .HasColumnName("secondname");
 
                 nameBuilder.Property(fn => fn.LastName)
                 .IsRequired(false)
@@ -68,7 +68,7 @@ namespace PetFamily.Infrastructure.Configuration
             builder.OwnsOne(v => v.SocialNetworks, vb =>
             {
                 vb.ToJson();
-
+                
                 vb.OwnsMany(vs => vs.SocialNetworks, vsb =>
                 {
                     vsb.Property(r => r.Name)
