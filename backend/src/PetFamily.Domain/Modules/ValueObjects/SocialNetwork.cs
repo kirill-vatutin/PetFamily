@@ -19,9 +19,9 @@ namespace PetFamily.Domain.Modules.ValueObjects
             {
                 return Result.Failure<SocialNetwork>("Name can not be empty");
             }
-            if (string.IsNullOrWhiteSpace(link))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                return Result.Failure<SocialNetwork>("Link can not be empty");
+                return Result.Failure<SocialNetwork>("Name can not be empty");
             }
 
             return new SocialNetwork(name, link);

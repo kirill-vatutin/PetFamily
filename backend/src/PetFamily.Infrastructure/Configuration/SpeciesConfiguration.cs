@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Modules.Entities.Aggregates;
+using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
-using System.Reflection.Metadata;
 
 namespace PetFamily.Infrastructure.Configuration
 {
@@ -11,7 +11,8 @@ namespace PetFamily.Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<Species> builder)
         {
             builder.ToTable("species");
-            builder.HasKey(s =>s.Id);
+
+            builder.HasKey(s => s.Id);
 
             builder.Property(s => s.Id)
                 .HasConversion(
@@ -19,15 +20,19 @@ namespace PetFamily.Infrastructure.Configuration
                 value => SpeciesId.Create(value)
                 );
 
-            builder.Property(s => s.Name)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            builder.ComplexProperty(s => s.Name, sb =>
+            {
+                sb.Property(n => n.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("name");
+            });
 
             builder.HasMany(s => s.Breeds)
                  .WithOne()
                  .HasForeignKey("breed_id");
         }
 
-      
+
     }
 }

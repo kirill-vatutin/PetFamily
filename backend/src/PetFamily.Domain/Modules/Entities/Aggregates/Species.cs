@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Modules.ValueObjects;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public class Species : Shared.Entity<SpeciesId>
     {
 
-        public string Name { get; private set; } = string.Empty;
+        public ShortString Name { get; private set; } = string.Empty;
 
 
         private List<Breed> _breeds = [];
@@ -20,19 +21,14 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         private Species(SpeciesId id) : base(id) { }
 
-        private Species(SpeciesId id, string name) : base(id)
+        private Species(SpeciesId id, ShortString name) : base(id)
         {
             Name = name;
         }
 
-        public static Result<Species> Create(SpeciesId id, string name)
+        public static Result<Species> Create(SpeciesId id, ShortString name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Result.Failure<Species>("Name can not be empty");
-            }
-            var species = new Species(id, name);
-            return species;
+            return new Species(id, name);
         }
     }
 }

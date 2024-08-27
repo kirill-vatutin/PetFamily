@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Modules.Entities.Aggregates;
+using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configuration
@@ -18,13 +19,21 @@ namespace PetFamily.Infrastructure.Configuration
                 value => PetId.Create(value)
                 );
 
-            builder.Property(p => p.Name)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            builder.ComplexProperty(p => p.Name, pb =>
+            {
+                pb.Property(n => n.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("name");
+            });
 
-            builder.Property(p => p.Description)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            builder.ComplexProperty(p => p.Description, pb =>
+            {
+                pb.Property(d => d.Value)
+                  .IsRequired()
+                  .HasMaxLength(LongString.MAX_LENGTH)
+                  .HasColumnName("description");
+            });
 
             builder.ComplexProperty(p => p.Classification, pb =>
             {
@@ -38,17 +47,24 @@ namespace PetFamily.Infrastructure.Configuration
                 pb.Property(c => c.BreedId)
                  .IsRequired()
                  .HasColumnName("breed_id");
-                
+
             });
 
+            builder.ComplexProperty(p => p.Color, pb =>
+            {
+                pb.Property(c => c.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("color");
+            });
 
-            builder.Property(p => p.Color)
-              .IsRequired()
-              .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(p => p.HealthInfo)
-              .IsRequired()
-              .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            builder.ComplexProperty(p => p.HealthInfo, pb =>
+            {
+                pb.Property(hi => hi.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("health_info");
+            });
 
             builder.ComplexProperty(p => p.Address, pb =>
             {

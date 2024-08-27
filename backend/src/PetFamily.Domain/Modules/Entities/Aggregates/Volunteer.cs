@@ -8,7 +8,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
     {
         public FullName FullName { get; private set; } = null!;
 
-        public string Description { get; private set; } = string.Empty;
+        public LongString Description { get; private set; } = string.Empty;
         public int YearsExperience { get; private set; }
 
 
@@ -22,7 +22,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         public IReadOnlyList<Pet> Pets => _pets;
 
 
-        public SocialNetworkList? SocialNetworks { get; private set; } 
+        public SocialNetworkList? SocialNetworks { get; private set; }
 
 
         public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
@@ -39,7 +39,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         private Volunteer(VolunteerId id,
                           FullName fullName,
-                          string description,
+                          LongString description,
                           int yearsExperience,
                           string phoneNumber,
                           RequisiteList? requisitesList,
@@ -56,31 +56,21 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         public static Result<Volunteer> Create(VolunteerId id,
                                                FullName fullName,
-                                               string description,
+                                               LongString description,
                                                int yearsExperience,
                                                string phoneNumber,
                                                RequisiteList? requisitesList = null,
                                                SocialNetworkList? socialNetworksList = null)
         {
-            if (string.IsNullOrWhiteSpace(fullName.Firstname))
-            {
-                return Result.Failure<Volunteer>("Firstname can not be empty");
-            }
 
-            if (string.IsNullOrWhiteSpace(fullName.LastName))
-            {
-                return Result.Failure<Volunteer>("Lastname can not be empty");
-            }
-
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                return Result.Failure<Volunteer>("Description can not be empty");
-            }
             if (string.IsNullOrWhiteSpace(phoneNumber))
             {
                 return Result.Failure<Volunteer>("Phone number can not be empty");
             }
-            var volunteer = new Volunteer(id, fullName, description, yearsExperience, phoneNumber, requisitesList, socialNetworksList);
+
+            var volunteer = new Volunteer(
+                id, fullName, description, yearsExperience, phoneNumber, requisitesList, socialNetworksList);
+
             return volunteer;
         }
 
