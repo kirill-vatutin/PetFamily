@@ -23,16 +23,16 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
             if (fullNameResult.IsFailure) return fullNameResult.Error;
 
 
-            SocialNetworkList socialNetworksList = new(request.SocialNetworksDTO?.Select(
+            SocialNetworkList socialNetworksList = new(request.SocialNetworksDTO.Select(
                 nw => SocialNetwork.Create(
                     nw.Name,
                     nw.Link)
-                   .Value) ?? []); 
+                   .Value) );
 
-            RequisiteList requisitesList = new(request.RequisitesDTO?.Select(
+            RequisiteList requisitesList = new(request.RequisitesDTO.Select(
                 r => Requisite.Create(r.Name,
                                     r.Description)
-                                   .Value) ?? []);
+                                   .Value));
 
             var volunteerId = VolunteerId.NewVolonteerId();
 

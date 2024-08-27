@@ -5,8 +5,8 @@
         string Description,
         int YearsOfExperience,
         string PhoneNumber,
-        ICollection<RequisiteDTO>? RequisitesDTO = null,
-        ICollection<SocialNetworkDTO>? SocialNetworksDTO = null);
+        ICollection<RequisiteDTO> RequisitesDTO ,
+        ICollection<SocialNetworkDTO> SocialNetworksDTO );
 
     public record SocialNetworkDTO(string Name, string Link);
 
