@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Modules.ValueObjects;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
@@ -54,7 +55,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             SocialNetworks = socialNetworksList;
         }
 
-        public static Result<Volunteer> Create(VolunteerId id,
+        public static Result<Volunteer,Error> Create(VolunteerId id,
                                                FullName fullName,
                                                LongString description,
                                                int yearsExperience,
@@ -65,7 +66,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
             if (string.IsNullOrWhiteSpace(phoneNumber))
             {
-                return Result.Failure<Volunteer>("Phone number can not be empty");
+                return Errors.General.ValueIsInvalid("PhoneNumber");
             }
 
             var volunteer = new Volunteer(

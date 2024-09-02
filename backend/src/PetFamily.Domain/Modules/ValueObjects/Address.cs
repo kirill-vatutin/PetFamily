@@ -1,14 +1,15 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Models
 {
     public record Address
     {
-        public string Country { get; init; } = string.Empty;
-        public string City { get; init; } = string.Empty;
-        public string Street { get; init; } = string.Empty;
-        public int HouseNumber { get; init; }
-        public string? HouseLetter { get; init; }
+        public string Country { get; } = string.Empty;
+        public string City { get; } = string.Empty;
+        public string Street { get; } = string.Empty;
+        public int HouseNumber { get; }
+        public string? HouseLetter { get; }
 
         private Address(string country,
                         string city,
@@ -23,23 +24,23 @@ namespace PetFamily.Domain.Models
             HouseLetter = houseLetter;
         }
 
-        public static Result<Address> Create(string country,
+        public static Result<Address,Error> Create(string country,
                                              string city,
                                              string street,
                                              int houseNumber,
                                              string? houseLetter)
         {
-            if (string.IsNullOrEmpty(country))
+            if (string.IsNullOrWhiteSpace(country))
             {
-                return Result.Failure<Address>("Country can not be empty");
+                return Errors.General.ValueIsInvalid("Country");
             }
-            if (string.IsNullOrEmpty(city))
+            if (string.IsNullOrWhiteSpace(city))
             {
-                return Result.Failure<Address>("City can not be empty");
+                return Errors.General.ValueIsInvalid("City");
             }
-            if (string.IsNullOrEmpty(street))
+            if (string.IsNullOrWhiteSpace(street))
             {
-                return Result.Failure<Address>("Street can not be empty");
+                return Errors.General.ValueIsInvalid("Street");
             }
 
             var address = new Address(country, city, street, houseNumber, houseLetter);

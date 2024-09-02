@@ -1,4 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
+using System.Runtime.CompilerServices;
 
 namespace PetFamily.Domain.Modules.ValueObjects
 {
@@ -13,11 +15,13 @@ namespace PetFamily.Domain.Modules.ValueObjects
             Value = value;
         }
 
-        public static Result<ShortString, string> Create(string value)
+        public static Result<ShortString, Error> Create(
+            string value,
+            [CallerArgumentExpression(nameof(value))] string? variableName = null)
         {
             if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH)
             {
-                return "Invalid value of title";
+                return Errors.General.ValueIsInvalid(variableName);
             }
 
             return new ShortString(value);
@@ -25,6 +29,6 @@ namespace PetFamily.Domain.Modules.ValueObjects
 
         public static implicit operator string(ShortString shortString) => shortString.Value;
 
-        public static implicit operator ShortString(string s) => new ShortString(s);
+        public static implicit operator ShortString(string s) => new(s);
     }
 }

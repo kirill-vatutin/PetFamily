@@ -2,8 +2,11 @@
 
 
 
+using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volunteers;
 using PetFamily.Domain.Modules.Entities.Aggregates;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Repositories
 {
@@ -23,5 +26,17 @@ namespace PetFamily.Infrastructure.Repositories
             return volunteer.Id;
         }
 
+        public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+        {
+            var volunteer = await _context.Volunteers
+                .FirstOrDefaultAsync(v=>v.Id ==volunteerId);
+
+            if (volunteer is null)
+            {
+                return Errors.General.NotFound(volunteerId);
+            }
+            return volunteer;
+                
+        }
     }
 }

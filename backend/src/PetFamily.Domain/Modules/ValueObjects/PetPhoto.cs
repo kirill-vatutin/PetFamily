@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.ValueObjects
 {
@@ -13,8 +14,12 @@ namespace PetFamily.Domain.Modules.ValueObjects
             IsMain = isMain;
         }
 
-        public static Result<PetPhoto> Create(string path, bool isMain=false)
+        public static Result<PetPhoto,Error> Create(string path, bool isMain=false)
         {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return Errors.General.ValueIsInvalid("Path");
+            }
             return new PetPhoto(path, isMain);  
         }
 
