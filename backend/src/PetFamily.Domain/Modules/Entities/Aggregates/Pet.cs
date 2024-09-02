@@ -2,6 +2,7 @@
 using PetFamily.Domain.Enums;
 using PetFamily.Domain.Models;
 using PetFamily.Domain.Modules.ValueObjects;
+using PetFamily.Domain.Shared;
 
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
@@ -66,7 +67,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
                     bool isVaccinated,
                     DateTime birthDay,
                     HelpStatus helpStatus
-            ): base(id)
+            ) : base(id)
         {
             Name = name;
             Description = description;
@@ -86,7 +87,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
 
 
-        public static Result<Pet,string> Create(PetId id,
+        public static Result<Pet, Error> Create(PetId id,
                                          ShortString name,
                                          LongString description,
                                          Classification classification,
@@ -101,17 +102,28 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
                                          DateTime birthDay,
                                          HelpStatus helpStatus)
         {
-            
+
             if (string.IsNullOrWhiteSpace(phoneNumber))
             {
-                return "phone number can not be empty";
+                return Errors.General.ValueIsInvalid("PhoneNumber");
             }
 
             var pet = new Pet(
-                    id, name, description, classification,
-                    color, healthInfo, address, weight,
-                    height, phoneNumber, isCastrated, isVaccinated,
-                    birthDay, helpStatus);
+                    id,
+                    name,
+                    description,
+                    classification,
+                    color,
+                    healthInfo,
+                    address,
+                    weight,
+                    height,
+                    phoneNumber,
+                    isCastrated,
+                    isVaccinated,
+                    birthDay,
+                    helpStatus
+                    );
             return pet;
         }
 

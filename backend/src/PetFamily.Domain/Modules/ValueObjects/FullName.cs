@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.ValueObjects
 {
@@ -15,17 +16,17 @@ namespace PetFamily.Domain.Modules.ValueObjects
             LastName = lastName;
         }
 
-        public static Result<FullName> Create(string firstname, string secondName, string? lastName=null)
+        public static Result<FullName,Error> Create(string firstname, string secondName, string? lastName=null)
         {
-            if (string.IsNullOrEmpty(firstname))
+            if (string.IsNullOrWhiteSpace(firstname))
             {
-                return Result.Failure<FullName>("Firstname can not be empty");
+                return Errors.General.ValueIsInvalid("FirstName");
             }
-            if (string.IsNullOrEmpty(secondName))
+            if (string.IsNullOrWhiteSpace(secondName))
             {
-                return Result.Failure<FullName>("SecondName can not be empty");
+                return Errors.General.ValueIsInvalid("SecondName");
             }
-            
+
             return new FullName(firstname, secondName, lastName);
         }
     }

@@ -2,22 +2,14 @@
 {
     public class SocialNetworkList
     {
-        private List<SocialNetwork> _socialNetworks = [];
 
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks.AsReadOnly();
-
-        public void AddSocialNetwork(SocialNetwork socialNetwork)
-        {
-            _socialNetworks.Add(socialNetwork);
-        }
+        public IReadOnlyList<SocialNetwork> SocialNetworks;
 
         public SocialNetworkList(IEnumerable<SocialNetwork> socialNetworks)
         {
-            _socialNetworks = socialNetworks.ToList();
+            SocialNetworks = socialNetworks.ToList();
         }
-        private SocialNetworkList()
-        {
-                
-        }
+        private SocialNetworkList() { }
+       
     }
 }
