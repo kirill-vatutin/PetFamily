@@ -8,18 +8,18 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
     public class Pet : Shared.Entity<PetId>
     {
-        public string Name { get; private set; } = string.Empty;
+        public ShortString Name { get; private set; } = string.Empty;
 
-        public string Description { get; private set; } = string.Empty;
+        public LongString Description { get; private set; } = string.Empty;
 
 
         public Classification Classification { get; private set; } = null!;
 
 
-        public string Color { get; private set; } = string.Empty;
+        public ShortString Color { get; private set; } = string.Empty;
 
 
-        public string HealthInfo { get; private set; } = string.Empty;
+        public LongString HealthInfo { get; private set; } = string.Empty;
 
 
         public Address Address { get; private set; } = null!;
@@ -53,11 +53,11 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         private Pet(PetId id) : base(id) { }
 
         private Pet(PetId id,
-                    string name,
-                    string description,
+                    ShortString name,
+                    LongString description,
                     Classification classification,
-                    string color,
-                    string healthInfo,
+                    ShortString color,
+                    LongString healthInfo,
                     Address address,
                     int weight,
                     int height,
@@ -86,12 +86,12 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
 
 
-        public static Result<Pet> Create(PetId id,
-                                         string name,
-                                         string description,
+        public static Result<Pet,string> Create(PetId id,
+                                         ShortString name,
+                                         LongString description,
                                          Classification classification,
-                                         string color,
-                                         string healthInfo,
+                                         ShortString color,
+                                         LongString healthInfo,
                                          Address address,
                                          int weight,
                                          int height,
@@ -101,28 +101,14 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
                                          DateTime birthDay,
                                          HelpStatus helpStatus)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Result.Failure<Pet>("Name can not be empty");
-            }
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                return Result.Failure<Pet>("Description can not be empty");
-            }
-            if (string.IsNullOrWhiteSpace(color))
-            {
-                return Result.Failure<Pet>("Color can not be empty");
-            }
-            if (string.IsNullOrWhiteSpace(healthInfo))
-            {
-                return Result.Failure<Pet>("HealthInfo can not be empty");
-            }
+            
             if (string.IsNullOrWhiteSpace(phoneNumber))
             {
-                return Result.Failure<Pet>("PhoneNumber can not be empty");
+                return "phone number can not be empty";
             }
 
-            var pet = new Pet(id, name, description, classification,
+            var pet = new Pet(
+                    id, name, description, classification,
                     color, healthInfo, address, weight,
                     height, phoneNumber, isCastrated, isVaccinated,
                     birthDay, helpStatus);

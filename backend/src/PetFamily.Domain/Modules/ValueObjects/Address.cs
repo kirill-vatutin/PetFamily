@@ -10,7 +10,11 @@ namespace PetFamily.Domain.Models
         public int HouseNumber { get; init; }
         public string? HouseLetter { get; init; }
 
-        private Address(string country, string city, string street, int houseNumber, string? houseLetter)
+        private Address(string country,
+                        string city,
+                        string street,
+                        int houseNumber,
+                        string? houseLetter)
         {
             Country = country;
             City = city;

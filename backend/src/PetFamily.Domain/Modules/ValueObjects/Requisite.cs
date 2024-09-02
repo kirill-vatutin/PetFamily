@@ -4,8 +4,8 @@ namespace PetFamily.Domain.Modules.ValueObjects
 {
     public record Requisite
     {
-        public string Name { get; init; } = string.Empty;
-        public string Description { get; init; } = string.Empty;
+        public string Name { get; }
+        public string Description { get; } 
 
         private Requisite(string name, string description)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Modules.Entities.Aggregates;
+using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configuration
@@ -24,22 +25,26 @@ namespace PetFamily.Infrastructure.Configuration
                 nameBuilder.Property(fn => fn.Firstname)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .HasColumnName("firstname");
+                .HasColumnName("first_name");
 
                 nameBuilder.Property(fn => fn.SecondName)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .HasColumnName("secondname");
+                .HasColumnName("second_name");
 
                 nameBuilder.Property(fn => fn.LastName)
                 .IsRequired(false)
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .HasColumnName("lastname");
+                .HasColumnName("last_name");
             });
 
-            builder.Property(v => v.Description)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            builder.ComplexProperty(v => v.Description, vb =>
+            {
+                vb.Property(d => d.Value)
+                  .IsRequired()
+                  .HasMaxLength(LongString.MAX_LENGTH)
+                  .HasColumnName("description");
+            });
 
             builder.Property(v => v.YearsExperience)
                 .IsRequired();
@@ -68,7 +73,7 @@ namespace PetFamily.Infrastructure.Configuration
             builder.OwnsOne(v => v.SocialNetworks, vb =>
             {
                 vb.ToJson();
-                
+
                 vb.OwnsMany(vs => vs.SocialNetworks, vsb =>
                 {
                     vsb.Property(r => r.Name)
@@ -81,12 +86,9 @@ namespace PetFamily.Infrastructure.Configuration
                 });
             });
 
-
-
             builder.HasMany(v => v.Pets)
                 .WithOne()
                 .HasForeignKey("volunteer_id");
-
         }
     }
 }

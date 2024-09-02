@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Modules.ValueObjects;
 
 namespace PetFamily.Domain.Modules.Entities
 {
@@ -6,25 +7,18 @@ namespace PetFamily.Domain.Modules.Entities
     {
         private Breed(BreedId id) : base(id) { }
 
-        private Breed(BreedId id, string name) : base(id)
+        private Breed(BreedId id, ShortString name) : base(id)
         {
             Name = name;
         }
 
-        public string Name { get; set; } = string.Empty;
+        public ShortString Name { get; set; } = string.Empty;
 
 
 
-        public static Result<Breed> Create(BreedId id, string name)
+        public static Result<Breed> Create(BreedId id, ShortString name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Result.Failure<Breed>("Name can not be empty");
-            }
-
-            var breed = new Breed(id, name);
-            return breed;
-
+            return new Breed(id, name);
         }
 
 
