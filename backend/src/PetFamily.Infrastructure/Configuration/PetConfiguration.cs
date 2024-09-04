@@ -100,9 +100,13 @@ namespace PetFamily.Infrastructure.Configuration
             builder.Property(p => p.Height)
                 .IsRequired();
 
-            builder.Property(p => p.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+            builder.ComplexProperty(p => p.PhoneNumber, pb =>
+            {
+                pb.Property(p => p.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("phone_number");
+            });
 
             builder.Property(p => p.IsCastrated)
                 .IsRequired();

@@ -38,6 +38,10 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
 
             if (descriptionResult.IsFailure) return descriptionResult.Error;
 
+            var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
+
+            if (phoneNumberResult.IsFailure) return phoneNumberResult.Error;
+
             SocialNetworkList socialNetworksList = new(request.SocialNetworksDTO.Select(
                 nw => SocialNetwork.Create(
                     nw.Name,
@@ -50,16 +54,14 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                                    .Value));
 
 
-            var volunteerResult = Volunteer.Create(volunteerId,
+            var volunteer = new Volunteer(volunteerId,
                                                    fullNameResult.Value,
                                                    descriptionResult.Value,
                                                    request.YearsOfExperience,
-                                                   request.PhoneNumber,
+                                                   phoneNumberResult.Value,
                                                    requisitesList,
                                                    socialNetworksList);
 
-            if (volunteerResult.IsFailure) return volunteerResult.Error;
-            var volunteer = volunteerResult.Value;
             await _repository.Add(volunteer);
 
             return (Guid)volunteer.Id;

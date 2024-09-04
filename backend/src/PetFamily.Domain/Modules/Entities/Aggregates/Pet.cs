@@ -31,7 +31,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         public int Height { get; private set; }
 
 
-        public string PhoneNumber { get; private set; } = string.Empty;
+        public PhoneNumber PhoneNumber { get; private set; } 
 
 
         public bool IsCastrated { get; private set; } = false;
@@ -53,7 +53,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         private Pet(PetId id) : base(id) { }
 
-        private Pet(PetId id,
+        public Pet(PetId id,
                     ShortString name,
                     LongString description,
                     Classification classification,
@@ -62,7 +62,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
                     Address address,
                     int weight,
                     int height,
-                    string phoneNumber,
+                    PhoneNumber phoneNumber,
                     bool isCastrated,
                     bool isVaccinated,
                     DateTime birthDay,
@@ -87,45 +87,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
 
 
-        public static Result<Pet, Error> Create(PetId id,
-                                         ShortString name,
-                                         LongString description,
-                                         Classification classification,
-                                         ShortString color,
-                                         LongString healthInfo,
-                                         Address address,
-                                         int weight,
-                                         int height,
-                                         string phoneNumber,
-                                         bool isCastrated,
-                                         bool isVaccinated,
-                                         DateTime birthDay,
-                                         HelpStatus helpStatus)
-        {
-
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-            {
-                return Errors.General.ValueIsInvalid("PhoneNumber");
-            }
-
-            var pet = new Pet(
-                    id,
-                    name,
-                    description,
-                    classification,
-                    color,
-                    healthInfo,
-                    address,
-                    weight,
-                    height,
-                    phoneNumber,
-                    isCastrated,
-                    isVaccinated,
-                    birthDay,
-                    helpStatus
-                    );
-            return pet;
-        }
+       
 
     }
 };
