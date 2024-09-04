@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Modules.ValueObjects;
-using PetFamily.Domain.Shared;
+﻿using PetFamily.Domain.Modules.ValueObjects;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
@@ -13,7 +11,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         public int YearsExperience { get; private set; }
 
 
-        public string PhoneNumber { get; private set; } = string.Empty;
+        public PhoneNumber PhoneNumber { get; private set; }
 
         public RequisiteList? Requisites { get; private set; }
 
@@ -38,11 +36,11 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             : base(id)
         { }
 
-        private Volunteer(VolunteerId id,
+        public Volunteer(VolunteerId id,
                           FullName fullName,
                           LongString description,
                           int yearsExperience,
-                          string phoneNumber,
+                          PhoneNumber phoneNumber,
                           RequisiteList? requisitesList,
                           SocialNetworkList? socialNetworksList)
             : base(id)
@@ -55,25 +53,7 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             SocialNetworks = socialNetworksList;
         }
 
-        public static Result<Volunteer,Error> Create(VolunteerId id,
-                                               FullName fullName,
-                                               LongString description,
-                                               int yearsExperience,
-                                               string phoneNumber,
-                                               RequisiteList? requisitesList = null,
-                                               SocialNetworkList? socialNetworksList = null)
-        {
 
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-            {
-                return Errors.General.ValueIsInvalid("PhoneNumber");
-            }
-
-            var volunteer = new Volunteer(
-                id, fullName, description, yearsExperience, phoneNumber, requisitesList, socialNetworksList);
-
-            return volunteer;
-        }
 
 
     }

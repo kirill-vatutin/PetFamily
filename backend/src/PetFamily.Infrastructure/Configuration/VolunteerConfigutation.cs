@@ -50,9 +50,13 @@ namespace PetFamily.Infrastructure.Configuration
                 .IsRequired();
 
 
-            builder.Property(v => v.PhoneNumber)
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                .IsRequired();
+            builder.ComplexProperty(v => v.PhoneNumber, vb =>
+            {
+                vb.Property(p => p.Value)
+                  .IsRequired()
+                  .HasMaxLength(ShortString.MAX_LENGTH)
+                  .HasColumnName("phone_number");
+            });
 
             builder.OwnsOne(v => v.Requisites, vb =>
             {
