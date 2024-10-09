@@ -10,12 +10,10 @@
 
     public record SocialNetworkDTO(string Name, string Link);
 
-
     public record FullNameDTO(
         string FirstName, string SecondName, string? LastName = null);
 
     public record RequisiteDTO(
         string Name, string Description)
-    {
-    }
+    { }
 }

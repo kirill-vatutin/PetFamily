@@ -9,6 +9,10 @@ namespace PetFamily.API.Controllers
     [ApiController]
     public class VolunteersController : ControllerBase
     {
+
+        public VolunteersController() { 
+        
+        }
         [HttpPost]
         public async Task<ActionResult> Create(
             [FromServices] CreateVolunteerHandler handler,
