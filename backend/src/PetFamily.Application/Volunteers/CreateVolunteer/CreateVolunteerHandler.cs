@@ -31,16 +31,9 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                                                 request.FullName.SecondName,
                                                 request.FullName.LastName);
 
-            if (fullNameResult.IsFailure) return fullNameResult.Error;
-
-            var description = request.Description;
-            var descriptionResult = LongString.Create(description);
-
-            if (descriptionResult.IsFailure) return descriptionResult.Error;
+            var descriptionResult = LongString.Create(request.Description);
 
             var phoneNumberResult = PhoneNumber.Create(request.PhoneNumber);
-
-            if (phoneNumberResult.IsFailure) return phoneNumberResult.Error;
 
             SocialNetworkList socialNetworksList = new(request.SocialNetworksDTO.Select(
                 nw => SocialNetwork.Create(
