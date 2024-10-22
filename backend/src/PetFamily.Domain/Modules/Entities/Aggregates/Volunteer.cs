@@ -40,6 +40,11 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             PhoneNumber = phoneNumber;
         }
 
+        public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+        {
+            SocialNetworks = new SocialNetworkList(socialNetworks);
+        }
+
         //EF Core
         private Volunteer(VolunteerId id)
             : base(id)

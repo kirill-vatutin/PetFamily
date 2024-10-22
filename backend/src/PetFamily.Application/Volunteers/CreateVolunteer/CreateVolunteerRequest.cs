@@ -7,12 +7,7 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
         string Description,
         int YearsOfExperience,
         string PhoneNumber,
-        ICollection<RequisiteDTO> RequisitesDTO ,
-        ICollection<SocialNetworkDTO> SocialNetworksDTO );
-
-    public record SocialNetworkDTO(string Name, string Link);
-
-    public record RequisiteDTO(
-        string Name, string Description);
+        ICollection<RequisiteDTO> RequisitesDTO,
+        ICollection<SocialNetworkDTO> SocialNetworksDTO);
     
 }
