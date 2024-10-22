@@ -1,4 +1,6 @@
-﻿using PetFamily.Domain.Modules.ValueObjects;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Modules.ValueObjects;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
@@ -30,6 +32,13 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
 
         public int PetsCountHouseFound() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.FoundAHouse);
 
+        public void UpdateMainInfo(FullName fullName, LongString description, int yearsOfExperience, PhoneNumber phoneNumber)
+        {
+            FullName = fullName;
+            Description = description;
+            YearsExperience = yearsOfExperience;
+            PhoneNumber = phoneNumber;
+        }
 
         //EF Core
         private Volunteer(VolunteerId id)

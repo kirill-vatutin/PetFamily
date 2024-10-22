@@ -6,15 +6,15 @@ namespace PetFamily.API.Middlewares;
 
 public class ExceptionMiddleware
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<ExceptionMiddleware> _logger;
     private readonly RequestDelegate _next;
 
-    public ExceptionMiddleware(ILogger logger, RequestDelegate next)
+    public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDelegate next)
     {
         _logger = logger;
         _next = next;
     }
-    public async  void Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context)
     {
         try
         {

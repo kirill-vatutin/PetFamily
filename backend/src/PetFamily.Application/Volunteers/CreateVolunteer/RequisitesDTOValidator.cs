@@ -14,7 +14,6 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                 r.Description
             })
             .MustBeValueObject(r => Requisite.Create(r.Name, r.Description));
-
         }
     }
 

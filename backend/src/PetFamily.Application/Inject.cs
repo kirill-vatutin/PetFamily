@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetFamily.API.Controllers;
 using PetFamily.Application.Volunteers.CreateVolunteer;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 namespace PetFamily.Application
 {
     public static class Inject
@@ -9,6 +9,7 @@ namespace PetFamily.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<CreateVolunteerHandler>();
+            services.AddScoped<UpdateMainInfoHandler>();
 
             services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
             return services;

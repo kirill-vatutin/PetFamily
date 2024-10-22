@@ -1,4 +1,6 @@
-﻿namespace PetFamily.Application.Volunteers.CreateVolunteer
+﻿using PetFamily.Application.Volunteers.Shared;
+
+namespace PetFamily.Application.Volunteers.CreateVolunteer
 {
     public record CreateVolunteerRequest(
         FullNameDTO FullName,
@@ -10,10 +12,7 @@
 
     public record SocialNetworkDTO(string Name, string Link);
 
-    public record FullNameDTO(
-        string FirstName, string SecondName, string? LastName = null);
-
     public record RequisiteDTO(
-        string Name, string Description)
-    { }
+        string Name, string Description);
+    
 }
