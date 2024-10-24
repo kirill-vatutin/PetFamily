@@ -1,12 +1,12 @@
-﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Modules.ValueObjects;
+﻿using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
 
-    public class Volunteer : Shared.Entity<VolunteerId>
+    public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
+        private bool _isDeleted = false;
         public FullName FullName { get; private set; } = null!;
 
         public LongString Description { get; private set; } = string.Empty;
@@ -16,20 +16,14 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
         public PhoneNumber PhoneNumber { get; private set; }
 
         public RequisiteList? Requisites { get; private set; }
-
+        public SocialNetworkList? SocialNetworks { get; private set; }
 
         private List<Pet> _pets = [];
 
         public IReadOnlyList<Pet> Pets => _pets;
 
-
-        public SocialNetworkList? SocialNetworks { get; private set; }
-
-
         public int PetsCountHelp() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
-
         public int PetsCountHouseSearch() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.LookingForAhouse);
-
         public int PetsCountHouseFound() => _pets.Count(p => p.HelpStatus == Enums.HelpStatus.FoundAHouse);
 
         public void UpdateMainInfo(FullName fullName, LongString description, int yearsOfExperience, PhoneNumber phoneNumber)
@@ -67,8 +61,26 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             SocialNetworks = socialNetworksList;
         }
 
+        public void Delete()
+        {
+            if (_isDeleted == false)
+                _isDeleted = true;
 
+            foreach (var pet in _pets)
+            {
+                pet.Delete();
+            }
+        }
 
+        public void Restore()
+        {
+            if (_isDeleted == true)
+                _isDeleted = false;
 
+            foreach (var pet in _pets)
+            {
+                pet.Restore();
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Modules.Entities.Aggregates;
 using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
+using System.Text.Json;
 
 namespace PetFamily.Infrastructure.Configuration
 {
@@ -60,6 +61,10 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.OwnsOne(v => v.Requisites, vb =>
             {
+                //vb.WithOwner().HasForeignKey("VolunteerId");
+                //vb.Property<int>("Id").ValueGeneratedOnAdd();
+                //vb.HasKey("VolunteerId", "Id");
+
                 vb.ToJson();
 
                 vb.OwnsMany(vr => vr.Requisites, vrb =>
@@ -73,6 +78,18 @@ namespace PetFamily.Infrastructure.Configuration
 
                 });
             });
+
+            //builder.Property(v => v.SocialNetworks)
+            //    .HasConversion(
+            //    list => JsonSerializer.Serialize(list,JsonSerializerOptions.Default),
+            //    value => JsonSerializer.Deserialize<SocialNetworkList>(value, JsonSerializerOptions.Default)!
+            //    );
+
+            //builder.Property(v => v.Requisites)
+            //    .HasConversion(
+            //    list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+            //    value => JsonSerializer.Deserialize<RequisiteList>(value, JsonSerializerOptions.Default)!
+            //    );
 
             builder.OwnsOne(v => v.SocialNetworks, vb =>
             {
@@ -92,7 +109,12 @@ namespace PetFamily.Infrastructure.Configuration
 
             builder.HasMany(v => v.Pets)
                 .WithOne()
-                .HasForeignKey("volunteer_id");
+                .HasForeignKey("volunteer_id")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property<bool>("_isDeleted")
+                   .UsePropertyAccessMode(PropertyAccessMode.Field)
+                   .HasColumnName("is_deleted");
         }
     }
 }

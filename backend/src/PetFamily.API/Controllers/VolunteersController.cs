@@ -77,5 +77,21 @@ namespace PetFamily.API.Controllers
 
             return Ok(result.Value);
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(
+           [FromRoute] Guid id,
+           [FromServices] DeleteVolunteerHandler handler,
+           CancellationToken cancellationToken)
+        {
+            var request = new DeleteVolunteerRequest(id);
+
+            var result = await handler.Handle(request, cancellationToken);
+
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
     }
 }

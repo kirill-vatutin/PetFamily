@@ -15,7 +15,11 @@
 
         public static VolunteerId Create(Guid id) => new(id);
 
-        public static implicit operator Guid(VolunteerId id) => id.Value;
+        public static implicit operator Guid(VolunteerId id)
+        {
+            ArgumentNullException.ThrowIfNull(id);
+            return id.Value;
+        }
 
         public static implicit operator VolunteerId(Guid id) => new(id);
 

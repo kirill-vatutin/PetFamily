@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using PetFamily.Domain.Enums;
+﻿using PetFamily.Domain.Enums;
 using PetFamily.Domain.Models;
 using PetFamily.Domain.Modules.ValueObjects;
 using PetFamily.Domain.Shared;
@@ -7,49 +6,34 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Modules.Entities.Aggregates
 {
-    public class Pet : Shared.Entity<PetId>
+    public class Pet : Entity<PetId>, ISoftDeletable
     {
+        private bool _isDeleted = false;
         public ShortString Name { get; private set; } = string.Empty;
-
         public LongString Description { get; private set; } = string.Empty;
-
 
         public Classification Classification { get; private set; } = null!;
 
-
         public ShortString Color { get; private set; } = string.Empty;
-
 
         public LongString HealthInfo { get; private set; } = string.Empty;
 
-
         public Address Address { get; private set; } = null!;
 
-
         public int Weight { get; private set; }
-
         public int Height { get; private set; }
 
-
-        public PhoneNumber PhoneNumber { get; private set; } 
-
+        public PhoneNumber PhoneNumber { get; private set; }
 
         public bool IsCastrated { get; private set; } = false;
-
         public bool IsVaccinated { get; private set; } = false;
 
-
         public DateTime BirthDay { get; private set; }
-
         public HelpStatus HelpStatus { get; private set; }
 
-
         public RequisiteList? Requisites { get; private set; }
-
         public DateTime CreateTime { get; private set; }
-
         public PetPhotoList? PetPhotos { get; private set; }
-
 
         private Pet(PetId id) : base(id) { }
 
@@ -85,10 +69,17 @@ namespace PetFamily.Domain.Modules.Entities.Aggregates
             CreateTime = DateTime.UtcNow;
         }
 
+        public void Delete()
+        {
+            if (_isDeleted == false)
+                _isDeleted = true;
+        }
 
-
-       
-
+        public void Restore()
+        {
+            if (_isDeleted == true)
+                _isDeleted = false;
+        }
     }
 };
 
