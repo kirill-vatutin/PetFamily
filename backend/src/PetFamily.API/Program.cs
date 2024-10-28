@@ -1,3 +1,4 @@
+using PetFamily.API.Middlewares;
 using PetFamily.API.Validation;
 using PetFamily.Application;
 using PetFamily.Infrastructure;
@@ -35,6 +36,8 @@ services.AddFluentValidationAutoValidation(configuration =>
 });
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
