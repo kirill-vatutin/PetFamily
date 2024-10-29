@@ -26,7 +26,14 @@ namespace PetFamily.Infrastructure.Repositories
             return volunteer.Id;
         }
 
-        public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+        public async Task<Guid> SaveAsync(Volunteer volunteer, CancellationToken cancellationToken = default)
+        {
+            _context.Volunteers.Attach(volunteer);
+            await _context.SaveChangesAsync();
+            return volunteer.Id.Value;
+        }
+
+        public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId,CancellationToken cancellationToken = default)
         {
             var volunteer = await _context.Volunteers
                 .FirstOrDefaultAsync(v=>v.Id ==volunteerId);
