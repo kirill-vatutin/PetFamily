@@ -154,6 +154,9 @@ namespace PetFamily.Infrastructure.Configuration
                 });
             });
 
+            builder.Property<bool>("_isDeleted")
+                   .UsePropertyAccessMode(PropertyAccessMode.Field)
+                   .HasColumnName("is_deleted");
         }
     }
 }

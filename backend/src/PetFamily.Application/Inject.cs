@@ -14,6 +14,8 @@ namespace PetFamily.Application
             services.AddScoped<UpdateMainInfoHandler>();
             services.AddScoped<UpdateSocialNetworksHandler>();
 
+            services.AddScoped<DeleteVolunteerHandler>();
+
             services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
             return services;
         }
