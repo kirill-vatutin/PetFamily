@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Modules.Entities.Aggregates;
-using PetFamily.Infrastructure.Interceptors;
 
 namespace PetFamily.Infrastructure
 {
     public class ApplicationDbContext(
-        IConfiguration configuration,
-        SoftDeleteInterceptor softDeleteInterceptor):DbContext
+        IConfiguration configuration
+        /*SoftDeleteInterceptor softDeleteInterceptor*/) : DbContext
     {
         private const string DATABASE = "Database";
         public DbSet<Pet> Pets { get; set; }

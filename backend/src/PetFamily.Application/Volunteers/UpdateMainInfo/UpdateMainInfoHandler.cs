@@ -40,6 +40,7 @@ public class UpdateMainInfoHandler
         var phoneNumber = PhoneNumber.Create(request.Dto.PhoneNumber).Value;
 
         volunteerResult.Value.UpdateMainInfo(fullName,description,yearsOfExperience,phoneNumber);
+
         var result = await _repository.SaveAsync(volunteerResult.Value, cancellationToken);
 
         _logger.LogInformation(@"Updated volunteer main info:" +

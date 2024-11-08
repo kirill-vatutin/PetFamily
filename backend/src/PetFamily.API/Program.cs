@@ -27,7 +27,7 @@ services.AddSwaggerGen();
 
 services.AddSerilog();
 
-services.AddInfrastructure();
+services.AddInfrastructure(configuration);
 services.AddApplication();
 
 services.AddFluentValidationAutoValidation(configuration =>
